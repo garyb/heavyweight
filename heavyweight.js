@@ -64,7 +64,7 @@ var toXML = function (json, tag, options) {
         if (items.attr) {
             var attrs = _.map(items.attr, function (a) {
                 var name = a.substring(1);
-                var value = json[a].toString();
+                var value = json[a] ? json[a].toString() : "";
                 
                 if (options && options.formatAttr) {
                     value = options.formatAttr(value, name);
