@@ -11,7 +11,7 @@ var _ = require("underscore");
  * with charcode entities.
  */
 var escapeAttr = function (value) {
-    return value.replace(/"/g, "&#34;");
+    return value.replace(/"/g, "&#34;").replace("&", "&amp;");
 };
 
 /**
@@ -19,6 +19,7 @@ var escapeAttr = function (value) {
  * inner content of a tag.
  */
 var escapeInner = function (value) {
+    value = value.replace("&", "&amp;");
     if (/[<>]/.test(value) && value.indexOf("<![CDATA[") !== 0) {
         return "<![CDATA[" + value.replace("]]>", "]]]]><![CDATA[>") + "]]>";
     }
