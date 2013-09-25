@@ -67,22 +67,25 @@ var toXML = function (json, tag, options) {
                 var name = a.substring(1);
                 var value = json[a] ? json[a].toString() : "";
                 
+                if (value === undefined) return null;
+                
                 if (options && options.formatAttr) {
                     value = options.formatAttr(value, name);
                 }
     
                 return name + "=\"" + escapeAttr(value) + "\"";
             });
-            result += " " + attrs.join(" ");
+            result += " " + _.compact(attrs).join(" ");
         }
         
         if (items.tag) {
             if (tag) result += ">\n";
             
-            result += _.map(items.tag, function (tag) {
+            result += _.compact(_.map(items.tag, function (tag) {
+                if (json[tag] === undefined) return null;
                 return "    " + toXML(json[tag], tag, options)
                     .replace(/\n/g, "\n    ");
-            }).join("\n");
+            })).join("\n");
             
             
             if (tag) result += "\n</" + tag + ">";
